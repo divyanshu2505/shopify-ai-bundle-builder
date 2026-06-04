@@ -46,7 +46,10 @@ class AIBundleBuilder {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      productTitle: this.productTitle
+      productTitle: this.productTitle,
+      productType:  this.productType,
+      productTags:  this.productTags,
+      maxRecs:      this.maxRecs
     })
   });
 
@@ -81,7 +84,7 @@ class AIBundleBuilder {
         <label class="bundle-check">
           <input type="checkbox" value="${p.id}" data-variant="${p.variants?.[0]?.id}" checked>
         </label>
-        <img src="${p.featured_image?.url || p.image}" alt="${p.title}" loading="lazy">
+        <img src="${p.featured_image || p.image || ''}" alt="${p.title}" loading="lazy">
         <h3>${p.title}</h3>
         <p class="price">${this.formatPrice(p.price)}</p>
         <button class="btn btn-add-single" data-variant="${p.variants?.[0]?.id}">Add to Cart</button>
@@ -143,9 +146,10 @@ class AIBundleBuilder {
     document.getElementById('bundle-skeleton').style.display = 'none';
   }
 
-  formatPrice(cents) {
-    return `₹${(cents / 100).toFixed(2)}`;
-  }
+  formatPrice(price) {
+    if (typeof price === 'string') return price;
+    return `₹${(price / 100).toFixed(2)}`;
+}
 }
 
 // Initialize when DOM ready
