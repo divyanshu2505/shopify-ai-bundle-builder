@@ -1,0 +1,38 @@
+.ai-bundle-wrapper { margin: 40px auto; padding: 20px 0; }
+.ai-bundle-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 20px; }
+
+/* Product Grid */
+.ai-bundle-products { display: flex; gap: 16px; flex-wrap: wrap; }
+.bundle-card {
+  flex: 1 1 200px; max-width: 220px;
+  border: 1px solid #e0e0e0; border-radius: 8px;
+  padding: 16px; text-align: center; position: relative;
+}
+.bundle-card img { width: 100%; height: 160px; object-fit: contain; }
+.bundle-card h3 { font-size: 0.9rem; margin: 8px 0 4px; }
+.bundle-card .price { font-weight: 600; color: #333; }
+
+/* Skeleton */
+.ai-bundle-skeleton { display: flex; gap: 16px; }
+.skeleton-card { flex: 1 1 200px; max-width: 220px; }
+.skeleton-img { height: 160px; background: #eee; border-radius: 6px; animation: shimmer 1.5s infinite; }
+.skeleton-line { height: 14px; background: #eee; border-radius: 4px; margin-top: 8px; animation: shimmer 1.5s infinite; }
+.skeleton-line.short { width: 60%; }
+
+@keyframes shimmer {
+  0%,100% { opacity: 1 } 50% { opacity: 0.4 }
+}
+
+/* Bundle CTA */
+.ai-bundle-cta {
+  display: block; width: 100%; margin-top: 20px;
+  padding: 14px; background: #000; color: #fff;
+  border-radius: 4px; font-size: 1rem; cursor: pointer;
+}
+.ai-explanation { font-size: 0.85rem; color: #666; margin-top: 12px; font-style: italic; }
+
+/* Responsive */
+@media (max-width: 600px) {
+  .ai-bundle-products, .ai-bundle-skeleton { flex-direction: column; }
+  .bundle-card { max-width: 100%; }
+}

@@ -1,0 +1,60 @@
+{% comment %} Schema at bottom controls Theme Editor settings {% endcomment %}
+
+<div id="ai-bundle-section"
+  class="ai-bundle-wrapper page-width"
+  data-product-title="{{ product.title | escape }}"
+  data-product-type="{{ product.type | escape }}"
+  data-product-tags="{{ product.tags | join: ',' | escape }}"
+  data-product-description="{{ product.description | strip_html | truncate: 300 | escape }}"
+  data-max-recs="{{ section.settings.recommendation_count }}"
+  data-fallback-collection="{{ section.settings.fallback_collection }}"
+  {% unless section.settings.enable_section %}style="display:none"{% endunless %}
+>
+  <h2 class="ai-bundle-title">{{ section.settings.section_title }}</h2>
+
+  <!-- Skeleton loader shown while AI fetches -->
+  <div class="ai-bundle-skeleton" id="bundle-skeleton">
+    {% assign rec_count = section.settings.recommendation_count | plus: 0 %}
+    
+    {% for i in (1..rec_count) %}
+      <div class="skeleton-card">
+        <div class="skeleton-img"></div>
+        <div class="skeleton-line"></div>
+        <div class="skeleton-line short"></div>
+      </div>
+    {% endfor %}
+  </div>
+
+  <!-- Real products injected here by JS -->
+  <div class="ai-bundle-products" id="bundle-products" style="display:none"></div>
+
+  <!-- AI explanation text injected here -->
+  <p class="ai-explanation" id="ai-explanation"></p>
+
+  <!-- Bundle CTA -->
+  <button class="btn ai-bundle-cta" id="add-bundle-btn" style="display:none">
+    Add Entire Bundle to Cart
+  </button>
+</div>
+{{ 'ai-bundle-builder.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'ai-bundle-builder.js' | asset_url }}" defer></script>
+{% schema %}
+{
+  "name": "AI Bundle Builder",
+  "settings": [
+    { "type": "checkbox", "id": "enable_section", "label": "Enable Section", "default": true },
+    { "type": "text", "id": "section_title", "label": "Section Title", "default": "AI Recommended Bundle" },
+    {
+      "type": "select", "id": "recommendation_count", "label": "Number of Recommendations",
+      "options": [
+        { "value": "3", "label": "3" },
+        { "value": "4", "label": "4" },
+        { "value": "5", "label": "5" }
+      ],
+      "default": "4"
+    },
+    { "type": "collection", "id": "fallback_collection", "label": "Fallback Collection" }
+  ],
+  "presets": [{ "name": "AI Bundle Builder" }]
+}
+{% endschema %}
