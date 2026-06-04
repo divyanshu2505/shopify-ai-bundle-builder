@@ -40,7 +40,7 @@ class AIBundleBuilder {
   // ----- AI CALL -----
   async getAIRecommendations() {
 
-  const response = await fetch('http://localhost:3000/ai-proxy', {
+  const response = await fetch('https://shopify-ai-bundle-builder.onrender.com/ai-proxy', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'

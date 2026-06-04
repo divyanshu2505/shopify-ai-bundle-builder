@@ -78,7 +78,30 @@ Return ONLY valid JSON:
     });
   }
 });
+app.get("/", (req, res) => {
+  res.send("Backend Running");
+});
 
-app.listen(3000, () => {
-  console.log("Server running on port 3000");
+app.get("/test-ai", async (req, res) => {
+  try {
+    const response = await client.chat.completions.create({
+      model: "openai/gpt-4o-mini",
+      messages: [
+        {
+          role: "user",
+          content: "Say hello"
+        }
+      ]
+    });
+
+    res.send(response.choices[0].message.content);
+
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
