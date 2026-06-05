@@ -15,34 +15,61 @@ const client = new OpenAI({
   baseURL: "https://openrouter.ai/api/v1"
 });
 
+// Simple in-memory cache to prevent hitting OpenRouter rate limits
+const recsCache = {};
+const CACHE_TTL = 24 * 60 * 60 * 1000; // 24 hours
+
 app.post("/ai-proxy", async (req, res) => {
   try {
-    const { productTitle, productType, productTags, maxRecs } = req.body;
+    const { productTitle, productType, productTags, productDescription, productCollections, maxRecs } = req.body;
 
+    const limit = parseInt(maxRecs) || 4;
+    const cacheKey = `${(productTitle || '').trim().toLowerCase()}_recs_${limit}`;
+    
+    // Check cache
+    if (recsCache[cacheKey] && (Date.now() - recsCache[cacheKey].timestamp < CACHE_TTL)) {
+      console.log(`[Cache Hit] Serving cached recommendations for: ${productTitle}`);
+      return res.json(recsCache[cacheKey].data);
+    }
+
+    console.log(`[Cache Miss] Querying AI for: ${productTitle}`);
     const prompt = `
-You are a sports nutrition expert.
+You are an expert sports nutrition and health supplement advisor.
+A customer is viewing the following product:
+Title: ${productTitle}
+Type: ${productType}
+Tags: ${productTags}
+Collections: ${productCollections || ''}
+Description: ${productDescription || ''}
 
-Product:
-${productTitle}
+Based on this product, suggest exactly ${limit} complementary products from other categories that would build a perfect wellness/fitness bundle.
+Choose products from the following categories:
+- Mass Gainers
+- Whey Protein
+- Creatine
+- Pre-Workout
+- Multivitamins
+- Wellness Gummies
+- Hair Gummies
+- Sleep Gummies
+- ACV Gummies
+- Immunity Supplements
+- Sports Nutrition
 
-Type:
-${productType}
+In addition:
+1. Detect the primary health/fitness goal of the current product (e.g., "Muscle Growth", "Weight Gain", "Energy & Focus", "Sleep & Relaxation", "Immunity", "Hair & Skin Health", "General Wellness").
+2. Write a short, highly engaging 1-2 sentence explanation of why this bundle is perfect for the detected goal.
 
-Tags:
-${productTags}
-
-Suggest ${maxRecs || 4} complementary products.
-
-Return ONLY valid JSON:
-
+Return ONLY a valid JSON object:
 {
   "recommendations": [
-    "Creatine",
-    "Shaker",
-    "Multivitamin",
-    "Pre Workout"
+    "Product Category or Name 1",
+    "Product Category or Name 2",
+    "Product Category or Name 3",
+    "Product Category or Name 4"
   ],
-  "reason": "short explanation"
+  "reason": "A 1-2 sentence compelling reason explaining why this bundle works.",
+  "goal": "Detected health/fitness goal name"
 }
 `;
 
@@ -64,19 +91,28 @@ Return ONLY valid JSON:
       .replace(/```/g, "")
       .trim();
 
-    res.json(JSON.parse(cleaned));
+    const resultData = JSON.parse(cleaned);
+
+    // Save to cache
+    recsCache[cacheKey] = {
+      timestamp: Date.now(),
+      data: resultData
+    };
+
+    res.json(resultData);
 
   } catch (err) {
-    console.error(err);
+    console.error("AI Error:", err);
 
     res.json({
       recommendations: [
         "Creatine",
-        "Shaker",
+        "Whey Protein",
         "Multivitamin",
         "Pre Workout"
       ],
-      reason: "Fallback recommendations"
+      reason: "Commonly combined for overall performance, strength, and recovery.",
+      goal: "Muscle Growth & Performance"
     });
   }
 });

@@ -2,42 +2,120 @@
 
 <div id="ai-bundle-section"
   class="ai-bundle-wrapper page-width"
+  data-product-id="{{ product.id }}"
   data-product-title="{{ product.title | escape }}"
   data-product-type="{{ product.type | escape }}"
   data-product-tags="{{ product.tags | join: ',' | escape }}"
-  data-product-description="{{ product.description | strip_html | truncate: 300 | escape }}"
+  data-product-collections="{{ product.collections | map: 'title' | join: ',' | escape }}"
+  data-product-description="{{ product.description | strip_html | truncate: 400 | escape }}"
   data-max-recs="{{ section.settings.recommendation_count }}"
   data-fallback-collection="{{ section.settings.fallback_collection }}"
+  data-main-variant-id="{{ product.selected_or_first_available_variant.id }}"
+  data-main-product-title="{{ product.title | escape }}"
+  data-main-product-price="{{ product.selected_or_first_available_variant.price }}"
+  data-main-product-image="{{ product.featured_image | image_url: width: 240 }}"
+  data-discount-code="{{ section.settings.discount_code | escape }}"
+  data-discount-percentage="{{ section.settings.discount_percentage }}"
+  data-enable-goals="{{ section.settings.enable_goals }}"
+  data-show-analytics="{{ section.settings.show_analytics }}"
   {% unless section.settings.enable_section %}style="display:none"{% endunless %}
 >
-  <h2 class="ai-bundle-title">{{ section.settings.section_title }}</h2>
-
-  <!-- Skeleton loader shown while AI fetches -->
-  <div class="ai-bundle-skeleton" id="bundle-skeleton">
-    {% assign rec_count = section.settings.recommendation_count | plus: 0 %}
-    
-    {% for i in (1..rec_count) %}
-      <div class="skeleton-card">
-        <div class="skeleton-img"></div>
-        <div class="skeleton-line"></div>
-        <div class="skeleton-line short"></div>
-      </div>
-    {% endfor %}
+  <div class="ai-bundle-header">
+    <h2 class="ai-bundle-title">{{ section.settings.section_title }}</h2>
+    <div class="ai-goal-badge-wrapper" id="ai-goal-badge-wrapper" style="display:none">
+      <span class="ai-goal-badge" id="ai-goal-badge"></span>
+    </div>
   </div>
 
-  <!-- Real products injected here by JS -->
-  <div class="ai-bundle-products" id="bundle-products" style="display:none"></div>
+  <div class="ai-bundle-layout">
+    <!-- Left Column: Recommended Products Grid -->
+    <div class="ai-bundle-main">
+      <!-- Skeleton loader shown while AI fetches -->
+      <div class="ai-bundle-skeleton" id="bundle-skeleton">
+        {% assign rec_count = section.settings.recommendation_count | plus: 0 %}
+        {% for i in (1..rec_count) %}
+          <div class="skeleton-card">
+            <div class="skeleton-checkbox"></div>
+            <div class="skeleton-img"></div>
+            <div class="skeleton-line"></div>
+            <div class="skeleton-line short"></div>
+            <div class="skeleton-select"></div>
+            <div class="skeleton-btn"></div>
+          </div>
+        {% endfor %}
+      </div>
 
-  <!-- AI explanation text injected here -->
-  <p class="ai-explanation" id="ai-explanation"></p>
+      <!-- Real products injected here by JS -->
+      <div class="ai-bundle-products" id="bundle-products" style="display:none"></div>
+    </div>
 
-  <!-- Bundle CTA -->
-  <button class="btn ai-bundle-cta" id="add-bundle-btn" style="display:none">
-    Add Entire Bundle to Cart
-  </button>
+    <!-- Right Column: Sidebar with Explanations and Checkout -->
+    <div class="ai-bundle-sidebar" id="bundle-sidebar" style="display:none">
+      <div class="ai-explanation-box">
+        <span class="ai-sparkle-icon">✨ AI Recommendation</span>
+        <p class="ai-explanation" id="ai-explanation"></p>
+      </div>
+
+      <div class="ai-checkout-box">
+        <h3 class="checkout-title">Build Your Stack</h3>
+        <div class="checkout-items-list" id="checkout-items-list">
+          <!-- Main Product + Selected Bundle Items dynamically listed here -->
+        </div>
+        <div class="checkout-divider"></div>
+        
+        <div class="checkout-price-row">
+          <span>Subtotal:</span>
+          <span class="original-total-price" id="original-total-price">₹0.00</span>
+        </div>
+        <div class="checkout-price-row discount-row" id="discount-row" style="display:none">
+          <span class="discount-label">Bundle Discount (<span id="discount-percent-label">10</span>%):</span>
+          <span class="discount-amount" id="discount-amount">-₹0.00</span>
+        </div>
+        <div class="checkout-price-row total-row">
+          <span>Total Bundle Price:</span>
+          <span class="final-total-price" id="final-total-price">₹0.00</span>
+        </div>
+
+        <button class="btn ai-bundle-cta" id="add-bundle-btn">
+          Add Stack to Cart
+        </button>
+        
+        <p class="discount-applied-note" id="discount-applied-note" style="display:none">
+          🎉 Discount code <strong id="discount-code-note">BUNDLE10</strong> will automatically apply at checkout!
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Admin Preview Analytics Dashboard -->
+  {% if section.settings.show_analytics %}
+    <div class="ai-analytics-dashboard" id="ai-analytics-dashboard" style="display:none">
+      <h4 class="analytics-title">📊 AI Bundle Analytics (Admin Preview)</h4>
+      <div class="analytics-grid">
+        <div class="analytics-metric">
+          <span class="metric-value" id="metric-views">0</span>
+          <span class="metric-label">Bundle Views</span>
+        </div>
+        <div class="analytics-metric">
+          <span class="metric-value" id="metric-clicks">0</span>
+          <span class="metric-label">Product Clicks</span>
+        </div>
+        <div class="analytics-metric">
+          <span class="metric-value" id="metric-adds">0</span>
+          <span class="metric-label">Stack Purchases</span>
+        </div>
+        <div class="analytics-metric">
+          <span class="metric-value" id="metric-conversion">0%</span>
+          <span class="metric-label">Conversion Rate</span>
+        </div>
+      </div>
+    </div>
+  {% endif %}
 </div>
+
 {{ 'ai-bundle-builder.css' | asset_url | stylesheet_tag }}
 <script src="{{ 'ai-bundle-builder.js' | asset_url }}" defer></script>
+
 {% schema %}
 {
   "name": "AI Bundle Builder",
@@ -53,7 +131,16 @@
       ],
       "default": "4"
     },
-    { "type": "collection", "id": "fallback_collection", "label": "Fallback Collection" }
+    { "type": "collection", "id": "fallback_collection", "label": "Fallback Collection" },
+    { "type": "header", "content": "Bundle Discount Settings" },
+    { "type": "text", "id": "discount_code", "label": "Discount Code", "default": "BUNDLE10" },
+    {
+      "type": "range", "id": "discount_percentage", "label": "Discount Percentage",
+      "min": 0, "max": 30, "step": 5, "default": 10, "unit": "%"
+    },
+    { "type": "header", "content": "Advanced Features" },
+    { "type": "checkbox", "id": "enable_goals", "label": "Enable AI Goal Badging", "default": true },
+    { "type": "checkbox", "id": "show_analytics", "label": "Show Admin Analytics Dashboard (Pre-live)", "default": true }
   ],
   "presets": [{ "name": "AI Bundle Builder" }]
 }
