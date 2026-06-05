@@ -21,11 +21,13 @@ const products = [
     vendor: "NutriStack",
     product_type: "Gummies",
     tags: "wellness, gummies, multivitamin, daily health, immunity, vitamins",
-    variants: [
-      { title: "30 Gummies",  price: "699.00",  sku: "WG-30",  inventory_quantity: 100, inventory_management: "shopify" },
-      { title: "60 Gummies",  price: "1199.00", sku: "WG-60",  inventory_quantity: 100, inventory_management: "shopify" },
+    options: [
+      { name: "Size", values: ["30 Gummies", "60 Gummies"] }
     ],
-    images: [{ src: "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=600" }],
+    variants: [
+      { option1: "30 Gummies",  price: "699.00",  sku: "WG-30" },
+      { option1: "60 Gummies",  price: "1199.00", sku: "WG-60" },
+    ],
   },
 
   // ── HAIR GUMMIES ──
@@ -36,11 +38,13 @@ const products = [
     vendor: "NutriStack",
     product_type: "Gummies",
     tags: "hair gummies, biotin, collagen, hair growth, hair health, skin",
-    variants: [
-      { title: "30 Gummies",  price: "799.00",  sku: "HG-30",  inventory_quantity: 100, inventory_management: "shopify" },
-      { title: "60 Gummies",  price: "1399.00", sku: "HG-60",  inventory_quantity: 100, inventory_management: "shopify" },
+    options: [
+      { name: "Size", values: ["30 Gummies", "60 Gummies"] }
     ],
-    images: [{ src: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=600" }],
+    variants: [
+      { option1: "30 Gummies",  price: "799.00",  sku: "HG-30" },
+      { option1: "60 Gummies",  price: "1399.00", sku: "HG-60" },
+    ],
   },
 
   // ── SLEEP GUMMIES ──
@@ -51,11 +55,13 @@ const products = [
     vendor: "NutriStack",
     product_type: "Gummies",
     tags: "sleep gummies, melatonin, ashwagandha, sleep aid, relaxation, stress relief",
-    variants: [
-      { title: "30 Gummies",  price: "849.00",  sku: "SG-30",  inventory_quantity: 100, inventory_management: "shopify" },
-      { title: "60 Gummies",  price: "1499.00", sku: "SG-60",  inventory_quantity: 100, inventory_management: "shopify" },
+    options: [
+      { name: "Size", values: ["30 Gummies", "60 Gummies"] }
     ],
-    images: [{ src: "https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=600" }],
+    variants: [
+      { option1: "30 Gummies",  price: "849.00",  sku: "SG-30" },
+      { option1: "60 Gummies",  price: "1499.00", sku: "SG-60" },
+    ],
   },
 
   // ── ACV GUMMIES ──
@@ -66,11 +72,13 @@ const products = [
     vendor: "NutriStack",
     product_type: "Gummies",
     tags: "ACV gummies, apple cider vinegar, digestion, gut health, weight management, metabolism",
-    variants: [
-      { title: "30 Gummies",  price: "749.00",  sku: "ACV-30", inventory_quantity: 100, inventory_management: "shopify" },
-      { title: "60 Gummies",  price: "1299.00", sku: "ACV-60", inventory_quantity: 100, inventory_management: "shopify" },
+    options: [
+      { name: "Size", values: ["30 Gummies", "60 Gummies"] }
     ],
-    images: [{ src: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600" }],
+    variants: [
+      { option1: "30 Gummies",  price: "749.00",  sku: "ACV-30" },
+      { option1: "60 Gummies",  price: "1299.00", sku: "ACV-60" },
+    ],
   },
 
   // ── IMMUNITY SUPPLEMENTS ──
@@ -81,11 +89,13 @@ const products = [
     vendor: "NutriStack",
     product_type: "Immunity Supplements",
     tags: "immunity, vitamin c, vitamin d3, zinc, immune booster, supplements, health",
-    variants: [
-      { title: "60 Capsules",  price: "699.00",  sku: "IMM-60",  inventory_quantity: 150, inventory_management: "shopify" },
-      { title: "120 Capsules", price: "1199.00", sku: "IMM-120", inventory_quantity: 150, inventory_management: "shopify" },
+    options: [
+      { name: "Size", values: ["60 Capsules", "120 Capsules"] }
     ],
-    images: [{ src: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=600" }],
+    variants: [
+      { option1: "60 Capsules",  price: "699.00",  sku: "IMM-60" },
+      { option1: "120 Capsules", price: "1199.00", sku: "IMM-120" },
+    ],
   },
 
   // ── SPORTS NUTRITION – WHEY PROTEIN ──
@@ -96,12 +106,14 @@ const products = [
     vendor: "NutriStack",
     product_type: "Sports Nutrition",
     tags: "whey protein, sports nutrition, muscle building, protein shake, post workout, gym",
-    variants: [
-      { title: "1kg – Chocolate",  price: "1999.00", sku: "WP-1KG-CHOC",  inventory_quantity: 80, inventory_management: "shopify" },
-      { title: "2kg – Chocolate",  price: "3499.00", sku: "WP-2KG-CHOC",  inventory_quantity: 80, inventory_management: "shopify" },
-      { title: "1kg – Vanilla",    price: "1999.00", sku: "WP-1KG-VAN",   inventory_quantity: 80, inventory_management: "shopify" },
+    options: [
+      { name: "Size/Flavor", values: ["1kg – Chocolate", "2kg – Chocolate", "1kg – Vanilla"] }
     ],
-    images: [{ src: "https://images.unsplash.com/photo-1593095948071-474c5cc2989d?w=600" }],
+    variants: [
+      { option1: "1kg – Chocolate",  price: "1999.00", sku: "WP-1KG-CHOC" },
+      { option1: "2kg – Chocolate",  price: "3499.00", sku: "WP-2KG-CHOC" },
+      { option1: "1kg – Vanilla",    price: "1999.00", sku: "WP-1KG-VAN" },
+    ],
   },
 
   // ── SPORTS NUTRITION – CREATINE ──
@@ -112,11 +124,13 @@ const products = [
     vendor: "NutriStack",
     product_type: "Sports Nutrition",
     tags: "creatine, creatine monohydrate, sports nutrition, strength, power, muscle, gym",
-    variants: [
-      { title: "250g",  price: "599.00",  sku: "CR-250G",  inventory_quantity: 120, inventory_management: "shopify" },
-      { title: "500g",  price: "999.00",  sku: "CR-500G",  inventory_quantity: 120, inventory_management: "shopify" },
+    options: [
+      { name: "Size", values: ["250g", "500g"] }
     ],
-    images: [{ src: "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=600" }],
+    variants: [
+      { option1: "250g",  price: "599.00",  sku: "CR-250G" },
+      { option1: "500g",  price: "999.00",  sku: "CR-500G" },
+    ],
   },
 
   // ── SPORTS NUTRITION – PRE-WORKOUT ──
@@ -127,11 +141,13 @@ const products = [
     vendor: "NutriStack",
     product_type: "Sports Nutrition",
     tags: "pre-workout, energy, focus, caffeine, pump, sports nutrition, gym, workout",
-    variants: [
-      { title: "200g – Berry Blast",   price: "1299.00", sku: "PW-200G-BERRY",  inventory_quantity: 90, inventory_management: "shopify" },
-      { title: "200g – Green Apple",   price: "1299.00", sku: "PW-200G-APPLE",  inventory_quantity: 90, inventory_management: "shopify" },
+    options: [
+      { name: "Flavor", values: ["200g – Berry Blast", "200g – Green Apple"] }
     ],
-    images: [{ src: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600" }],
+    variants: [
+      { option1: "200g – Berry Blast",   price: "1299.00", sku: "PW-200G-BERRY" },
+      { option1: "200g – Green Apple",   price: "1299.00", sku: "PW-200G-APPLE" },
+    ],
   },
 
   // ── SPORTS NUTRITION – MASS GAINER ──
@@ -142,11 +158,13 @@ const products = [
     vendor: "NutriStack",
     product_type: "Sports Nutrition",
     tags: "mass gainer, weight gain, bulk, calories, protein, carbs, sports nutrition, gym",
-    variants: [
-      { title: "3kg – Chocolate",  price: "2499.00", sku: "MG-3KG-CHOC",  inventory_quantity: 60, inventory_management: "shopify" },
-      { title: "5kg – Chocolate",  price: "3999.00", sku: "MG-5KG-CHOC",  inventory_quantity: 60, inventory_management: "shopify" },
+    options: [
+      { name: "Size", values: ["3kg – Chocolate", "5kg – Chocolate"] }
     ],
-    images: [{ src: "https://images.unsplash.com/photo-1619564813854-e7c3c01a65a7?w=600" }],
+    variants: [
+      { option1: "3kg – Chocolate",  price: "2499.00", sku: "MG-3KG-CHOC" },
+      { option1: "5kg – Chocolate",  price: "3999.00", sku: "MG-5KG-CHOC" },
+    ],
   },
 
   // ── SPORTS NUTRITION – MULTIVITAMIN FOR ATHLETES ──
@@ -157,11 +175,13 @@ const products = [
     vendor: "NutriStack",
     product_type: "Multivitamins",
     tags: "multivitamin, athlete, vitamins, minerals, b-complex, omega, sports nutrition, daily health",
-    variants: [
-      { title: "30 Tablets",  price: "499.00", sku: "MV-30T",  inventory_quantity: 200, inventory_management: "shopify" },
-      { title: "90 Tablets",  price: "1299.00", sku: "MV-90T",  inventory_quantity: 200, inventory_management: "shopify" },
+    options: [
+      { name: "Size", values: ["30 Tablets", "90 Tablets"] }
     ],
-    images: [{ src: "https://images.unsplash.com/photo-1550831107-1553da8c8464?w=600" }],
+    variants: [
+      { option1: "30 Tablets",  price: "499.00", sku: "MV-30T" },
+      { option1: "90 Tablets",  price: "1299.00", sku: "MV-90T" },
+    ],
   },
 ];
 
